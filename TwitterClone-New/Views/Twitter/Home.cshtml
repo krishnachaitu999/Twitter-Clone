@@ -1,0 +1,207 @@
+﻿@model TwitterClone.DAL.PERSON
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title -My Twitter Clone</title>
+    <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <script src="~/Scripts/modernizr-2.6.2.js"></script>
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("My Twitter Clone", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>@Html.ActionLink("Home", "Home", "Twitter")</li>
+                    <li>@Html.ActionLink("Profile", "Details", "Home")</li>
+                    <li>@Html.ActionLink("Signout", "Logout", "Login")</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        <h3 class="text-danger">@TempData["Message"]</h3>
+       <div style="float:left">
+           @using (Html.BeginForm("Follow","Twitter",FormMethod.Post))
+           {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+
+                <hr />
+
+                <div class="form-group">
+
+                    <div class="col-md-12">
+                        @Html.Editor("Folllower_ID", new { htmlAttributes = new { @class = "form-control" }, })
+                        <input type="submit" value="Follow" />
+                        
+                    </div>
+                    <div>
+                        <label>
+                            @{
+                                int Tweetcount = Model.TWEETs.Select(n => n.User_ID == Model.User_ID).Count();
+                                    }
+                            @Html.DisplayFor(modelItem => Tweetcount):
+                            Tweets
+                        </label>
+                    </div>
+                    <div>
+                        <label>
+                            @{
+                                int FolloersCount = Model.Followers.Count();
+                            }
+                            @Html.DisplayFor(modelItem => FolloersCount):
+                            Follower
+                        </label>
+                    </div>
+                    <div>
+                        <label>
+                           @{
+                               int FowwlingCounnt = Model.Following.Count();
+                        }
+                        @Html.DisplayFor(modelItem => FowwlingCounnt):
+                            Following
+                             `
+                        </label>
+                    </div>
+                    
+                </div>
+
+            </div>
+           }  
+       </div>
+        <div style="float:none;margin-left:20%">
+           @using (Html.BeginForm("Create", "Twitter", FormMethod.Post))
+           {
+            @Html.AntiForgeryToken()
+               <div id="divCustomCreate">
+                    <label>
+                        What are you doing?
+                        
+                    </label>
+                    <br />
+                    <div>
+                        @Html.TextArea("message", string.Empty, 5, 50, null)
+
+                    </div>
+                   <div id="text-counter-parent" class="col-md-offset-2 col-md-10"><span id="text-counter">130</span> character(s) left.</div>
+                    <br />
+                    <div style="float:right">
+                        <input type="submit" value="Update"/>
+                    </div>
+                </div>
+                <h1>Tweets</h1>
+                <table class="table">
+                    <tr>
+                        <th>
+                            User
+                        </th>
+                        <th>
+                            Message
+                        </th>
+                        <th>
+                            Date
+                        </th>
+                        
+                        <th></th>
+                    </tr>
+
+                    @foreach (var item in Model.TWEETs)
+                    {
+                       var userID = item.User_ID; 
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.User_ID)
+                                
+                              
+                            </td>
+                            <td>
+                                @if (userID == Model.User_ID)
+                                {
+                                    @Html.DisplayFor(modelItem => item.Message);
+                                     @Html.ActionLink("       Edit", "Edit", new { id = item.Tweet_ID })
+                                    @Html.ActionLink("        Delete", "Delete", new { id = item.Tweet_ID })
+
+                                }
+                                else
+                                {
+                                    @Html.ActionLink("Delete", "Delete", new { id = item.Tweet_ID })
+                                }
+                               
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Created)
+                            </td>
+                           
+
+                        </tr>
+
+                    }
+
+                </table>
+           }
+
+        </div>
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+        </footer>
+    </div>
+
+
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script> 
+    <script>
+        $(document).ready(function () {
+            $("#Folllower_ID").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: "/Twitter/Search",
+                        type: "POST",
+                        dataType: "json",
+                        data: { Prefix: request.term },
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                return { label: item.UserID, value: item.UserID };
+                            }))
+
+                        }
+                    })
+                },
+                messages: {
+                    noResults: "", results: ""
+                }
+            });
+        })
+        $(function () {
+            $('#message').keyup(function (e) {
+                var max = 130;
+                var len = $(this).val().length;
+                var char = max - len;
+                if (len > max)
+                    $(this).val($(this).val().substring(0, max));
+                $('#text-counter').html(char);
+            });
+        });
+    </script>
+</body>
+</html>
