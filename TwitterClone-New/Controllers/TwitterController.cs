@@ -23,14 +23,15 @@ namespace TwitterClone_New.Controllers
             Response.AddHeader("Refresh", "50");
             return View(twitterBAL.GetTweetInfo(System.Web.HttpContext.Current.User.Identity.Name));
         }
-        [HttpPost]
        
+       [HttpPost]
         public ActionResult Search(string Prefix)
         {
             List<User> userList= twitterBAL.Search(Prefix);
             return Json(userList, JsonRequestBehavior.AllowGet);
         }
-        [HttpPost]
+       
+       [HttpPost]
         [MyExceptionHandler]
         public ActionResult Follow(string Folllower_ID)
         {
@@ -43,8 +44,6 @@ namespace TwitterClone_New.Controllers
            twitterBAL.AddFollower(Folllower_ID, System.Web.HttpContext.Current.User.Identity.Name);
            return RedirectToAction("Home");
         }
-
-
 
         // GET: Twitter/Details/5
         [MyExceptionHandler]
