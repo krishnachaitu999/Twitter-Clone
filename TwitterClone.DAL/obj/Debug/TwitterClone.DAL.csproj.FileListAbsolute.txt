@@ -1,0 +1,10 @@
+D:\Full Stack Developer\Assignments\TwitterClone-New\TwitterClone.DAL\obj\Debug\TwitterClone.DAL.csprojResolveAssemblyReference.cache
+D:\Full Stack Developer\Assignments\TwitterClone-New\TwitterClone.DAL\bin\Debug\TwitterClone.DAL.dll.config
+D:\Full Stack Developer\Assignments\TwitterClone-New\TwitterClone.DAL\bin\Debug\TwitterClone.DAL.dll
+D:\Full Stack Developer\Assignments\TwitterClone-New\TwitterClone.DAL\bin\Debug\TwitterClone.DAL.pdb
+D:\Full Stack Developer\Assignments\TwitterClone-New\TwitterClone.DAL\bin\Debug\EntityFramework.dll
+D:\Full Stack Developer\Assignments\TwitterClone-New\TwitterClone.DAL\bin\Debug\EntityFramework.SqlServer.dll
+D:\Full Stack Developer\Assignments\TwitterClone-New\TwitterClone.DAL\bin\Debug\EntityFramework.xml
+D:\Full Stack Developer\Assignments\TwitterClone-New\TwitterClone.DAL\bin\Debug\EntityFramework.SqlServer.xml
+D:\Full Stack Developer\Assignments\TwitterClone-New\TwitterClone.DAL\obj\Debug\TwitterClone.DAL.dll
+D:\Full Stack Developer\Assignments\TwitterClone-New\TwitterClone.DAL\obj\Debug\TwitterClone.DAL.pdb
